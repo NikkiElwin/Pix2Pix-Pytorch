@@ -32,6 +32,12 @@ parser.add_argument("-lr",'--learning-rate', type=float, default = 2e-4,
 args = parser.parse_args()
 
 
+if not os.path.exists('./Img'):
+    os.makedirs('./Img')
+if not os.path.exists('./model'):
+    os.makedirs('./model')
+
+
 inverted = True  #Source2target or target2source
 path = './data/'
 BATCH = args.batch_size
@@ -49,10 +55,10 @@ netG.to(device)
 netD = Discriminator(channalsM)
 netD.to(device)
 netD.apply(weights_init)
-
+print("[INFO] The network has successfully loaded!")
 trainDataset = ProcessDataset(trainPath,SIZE = SIZE,isInverted = inverted)
 valDataset = ProcessDataset(valPath,SIZE = SIZE,isInverted = inverted)
-
+print("[INFO] Data set has been successfully loaded!")
 trainData = DataLoader(trainDataset,batch_size = BATCH,shuffle = True,num_workers = args.workers)
 testData = DataLoader(valDataset,batch_size = BATCH)
 
